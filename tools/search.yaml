@@ -1,0 +1,130 @@
+identity:
+  name: search
+  author: weilabs
+  label:
+    en_US: Search Confluence
+    zh_Hans: 搜索 Confluence
+description:
+  human:
+    en_US: Search Confluence content using simple keywords or advanced CQL (Confluence Query Language) syntax.
+    zh_Hans: 使用简单关键词或高级 CQL（Confluence 查询语言）语法搜索 Confluence 内容。
+  llm: Searches Confluence content using simple keywords or advanced CQL (Confluence Query Language) syntax. Returns matching results including pages, blogs, and other content types based on the specified query.
+parameters:
+  - name: keywords
+    type: string
+    required: true
+    label:
+      en_US: Search Keywords
+      zh_Hans: 搜索关键词
+    human_description:
+      en_US: Enter keywords to search for in Confluence content.
+      zh_Hans: 输入要在 Confluence 内容中搜索的关键词。
+    llm_description: Keywords to search for in Confluence content. Will be converted to appropriate CQL syntax.
+    form: llm
+  - name: space
+    type: string
+    required: false
+    label:
+      en_US: Space
+      zh_Hans: 空间
+    human_description:
+      en_US: Filter results by Confluence space key.
+      zh_Hans: 按 Confluence 空间键筛选结果。
+    llm_description: The Confluence space key to filter results by.
+    form: llm
+  - name: contributor
+    type: string
+    required: false
+    label:
+      en_US: Contributor
+      zh_Hans: 贡献者
+    human_description:
+      en_US: Filter results by content contributor.
+      zh_Hans: 按内容贡献者筛选结果。
+    llm_description: The username of the contributor to filter results by.
+    form: llm
+  - name: content_type
+    type: select
+    required: false
+    options:
+      - value: page
+        label:
+          en_US: Page
+          zh_Hans: 页面
+      - value: blogpost
+        label:
+          en_US: Blog Post
+          zh_Hans: 博客文章
+      - value: comment
+        label:
+          en_US: Comment
+          zh_Hans: 评论
+      - value: attachment
+        label:
+          en_US: Attachment
+          zh_Hans: 附件
+    label:
+      en_US: Content Type
+      zh_Hans: 内容类型
+    human_description:
+      en_US: Filter results by content type. Multiple values can be selected.
+      zh_Hans: 按内容类型筛选结果。可以选择多个类型。
+    llm_description: The type of content to filter results by. Multiple values can be selected and will be combined with OR operator in CQL.
+    form: llm
+  - name: lastmodified
+    type: select
+    required: false
+    options:
+      - value: now("-1d")
+        label:
+          en_US: Past Day
+          zh_Hans: 过去一天
+      - value: now("-1w")
+        label:
+          en_US: Past Week
+          zh_Hans: 过去一周
+      - value: now("-1M")
+        label:
+          en_US: Past Month
+          zh_Hans: 过去一个月
+      - value: now("-1y")
+        label:
+          en_US: Past Year
+          zh_Hans: 过去一年
+      - value: anytime
+        label:
+          en_US: Anytime
+          zh_Hans: 随时
+    label:
+      en_US: Last Modified Date
+      zh_Hans: 最后修改日期
+    human_description:
+      en_US: Filter results by last modified date range.
+      zh_Hans: 按最后修改日期范围筛选结果。
+    llm_description: The date range when the content was last modified to filter results by.
+    form: llm
+  - name: label
+    type: string
+    required: false
+    label:
+      en_US: Label
+      zh_Hans: 标签
+    human_description:
+      en_US: Filter results by content label. Multiple labels can be specified using comma-separated values (e.g., "label1,label2").
+      zh_Hans: 按内容标签筛选结果。多个标签可以使用逗号分隔（例如："label1,label2"）。
+    form: llm
+  - name: limit
+    type: number
+    required: false
+    default: 10
+    label:
+      en_US: Result Limit
+      zh_Hans: 结果限制
+    human_description:
+      en_US: Maximum number of results to return (default 10).
+      zh_Hans: 返回结果的最大数量（默认：10）。
+    llm_description: The maximum number of search results to return. Default is 10 if not specified.
+    form: llm
+extra:
+  python:
+    source: tools/search.py
